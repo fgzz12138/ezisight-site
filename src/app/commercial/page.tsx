@@ -1,7 +1,54 @@
+"use client";
+import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function CommercialPage() {
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+    });
+    function handleChange(
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) {
+        const { name, value } = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setStatus("loading");
+
+        try {
+            const res = await fetch("/api/enquiry", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(form),
+            });
+
+            if (!res.ok) throw new Error("Failed");
+
+            setStatus("success");
+            setForm({
+                name: "",
+                email: "",
+                subject: "",
+                message: "",
+            });
+        } catch (err) {
+            setStatus("error");
+        }
+    }
+
+    const [status, setStatus] = useState("idle");
+
     return (
         <main className="commercial-page">
             <Header />
@@ -184,9 +231,9 @@ export default function CommercialPage() {
                     />
                 </div>
             </section>
-
             <section className="enquiry-section">
                 <div className="container enquiry-shell">
+
                     <div className="enquiry-head">
                         <p className="enquiry-eyebrow">CONTACT</p>
                         <h2>Enquiries</h2>
@@ -194,21 +241,43 @@ export default function CommercialPage() {
                             Tell us a little about your project and we will get back to you soon.
                         </p>
                     </div>
-
-                    <form className="enquiry-form">
+                    <form className="enquiry-form" onSubmit={handleSubmit}>
                         <div className="enquiry-field">
                             <label htmlFor="name">Name *</label>
-                            <input id="name" name="name" type="text" placeholder="Enter your name" />
+                            <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                placeholder="Enter your name"
+                                value={form.name}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
 
                         <div className="enquiry-field">
                             <label htmlFor="email">Email *</label>
-                            <input id="email" name="email" type="email" placeholder="Enter your email" />
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="Enter your email"
+                                value={form.email}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
 
                         <div className="enquiry-field">
                             <label htmlFor="subject">Subject</label>
-                            <input id="subject" name="subject" type="text" placeholder="Type the subject" />
+                            <input
+                                id="subject"
+                                name="subject"
+                                type="text"
+                                placeholder="Type the subject"
+                                value={form.subject}
+                                onChange={handleChange}
+                            />
                         </div>
 
                         <div className="enquiry-field">
@@ -218,16 +287,27 @@ export default function CommercialPage() {
                                 name="message"
                                 rows={5}
                                 placeholder="Type your message here..."
+                                value={form.message}
+                                onChange={handleChange}
+                                required
                             />
                         </div>
 
                         <button type="submit" className="enquiry-submit">
-                            Submit
+                            {status === "loading" ? "Submitting..." : "Submit"}
                         </button>
+
+                        {status === "success" && (
+                            <p style={{ marginTop: "10px" }}>✅ Sent successfully</p>
+                        )}
+
+                        {status === "error" && (
+                            <p style={{ marginTop: "10px" }}>❌ Something went wrong</p>
+                        )}
                     </form>
+
                 </div>
             </section>
-
             <Footer />
         </main>
     );

@@ -915,6 +915,15 @@ textarea {
   opacity: 0.94;
 }
 
+.enquiry-section .enquiry-field label {
+  color: #fff;
+}
+
+.enquiry-section .enquiry-field input,
+.enquiry-section .enquiry-field textarea {
+  color: #fff;
+}
+
 /* =========================================================
    TABLET
 ========================================================= */
