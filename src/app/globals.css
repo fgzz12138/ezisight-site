@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* =========================================================
    RESET
 ========================================================= */
@@ -988,6 +990,313 @@ textarea {
 
   .smart-solution-card {
     padding: 34px 28px;
+  }
+}
+
+
+/* =========================================================
+   RESIDENTIAL HERO
+========================================================= */
+
+.residential-page {
+  background: #f5f5f5;
+}
+
+.residential-main-hero {
+  position: relative;
+  min-height: 62vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("/images/residential-hero.avif") center center / cover no-repeat;
+  overflow: hidden;
+}
+
+.residential-main-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.42) 0%,
+      rgba(0, 0, 0, 0.24) 45%,
+      rgba(0, 0, 0, 0.16) 100%);
+}
+
+.residential-main-hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+.residential-main-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.residential-main-hero-content h1 {
+  font-size: clamp(46px, 7vw, 86px);
+  line-height: 0.95;
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: 60px;
+}
+
+.residential-main-hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.residential-main-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: 4px;
+  background: #53e0d3;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.residential-main-hero-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+.residential-main-hero-btn.secondary {
+  min-width: 190px;
+}
+
+/* =========================================================
+   RESIDENTIAL TILE LAYOUT
+========================================================= */
+
+.residential-tiles-section {
+  background: #f5f5f5;
+}
+
+.residential-tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.res-tile {
+  min-height: 420px;
+}
+
+.res-tile-image {
+  overflow: hidden;
+}
+
+.res-tile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.res-tile-content {
+  background: #ede9df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 28px;
+}
+
+.res-tile-content-inner {
+  max-width: 320px;
+}
+
+.res-tile-content h2 {
+  font-size: clamp(38px, 3.5vw, 56px);
+  line-height: 1.05;
+  font-weight: 400;
+  color: #2f4576;
+  margin-bottom: 28px;
+}
+
+.res-tile-content p {
+  font-size: 16px;
+  line-height: 1.85;
+  color: #444;
+  margin-bottom: 28px;
+}
+
+.res-tile-link {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+  color: #2f4576;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.res-tile-link:hover {
+  opacity: 0.75;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   RESIDENTIAL SLIDER TILE
+========================================================= */
+
+.res-tile-slider {
+  position: relative;
+  overflow: hidden;
+  background: #ddd;
+}
+
+.res-slider-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.res-slider-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.res-slider-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.res-slider-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.res-slider-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px 20px 16px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(6px);
+  transform: translateY(100%);
+  transition: transform 0.28s ease;
+}
+
+.res-tile-slider:hover .res-slider-caption {
+  transform: translateY(0);
+}
+
+.res-slider-caption h3 {
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #444;
+  margin-bottom: 4px;
+}
+
+.res-slider-caption p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+  margin: 0;
+}
+
+.res-slider-indicator {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+  .residential-tiles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .res-tile {
+    min-height: 360px;
+  }
+
+  .residential-main-hero {
+    min-height: 56vh;
+  }
+
+  .residential-main-hero-inner {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .residential-main-hero {
+    min-height: 48vh;
+  }
+
+  .residential-main-hero-inner {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  .residential-main-hero-content h1 {
+    font-size: clamp(38px, 12vw, 58px);
+    margin-bottom: 24px;
+  }
+
+  .residential-main-hero-btn {
+    min-width: 180px;
+    min-height: 46px;
+    font-size: 13px;
+  }
+
+  .residential-tiles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .res-tile {
+    min-height: 320px;
+  }
+
+  .res-tile-content {
+    padding: 32px 22px;
+  }
+
+  .res-tile-content h2 {
+    font-size: clamp(30px, 10vw, 42px);
+    margin-bottom: 18px;
+  }
+
+  .res-tile-content p {
+    font-size: 15px;
+    line-height: 1.75;
+    margin-bottom: 20px;
+  }
+
+  .res-slider-caption {
+    transform: translateY(0);
   }
 }
 
