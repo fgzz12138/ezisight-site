@@ -1,10 +1,43 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { products } from "@/data/product";
 
+const filterOptions = [
+    "HUB",
+    "SENSOR",
+    "DOOR LOCK",
+    "CAMERA",
+    "POE",
+    "PANEL",
+    "CONTROL Series",
+    "SECURITY CONTROL",
+    "SMART Central HUB",
+];
+
 export default function ShopPage() {
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+    const handleCategoryChange = (category: string) => {
+        setSelectedCategories((prev) =>
+            prev.includes(category)
+                ? prev.filter((item) => item !== category)
+                : [...prev, category]
+        );
+    };
+
+    const filteredProducts = useMemo(() => {
+        if (selectedCategories.length === 0) return products;
+
+        return products.filter((product) =>
+            selectedCategories.includes(product.category)
+        );
+    }, [selectedCategories]);
+
     return (
         <>
             <Header />
@@ -27,13 +60,19 @@ export default function ShopPage() {
 
                             <div className="shop-filter-block">
                                 <h4>Product Type</h4>
-                                <ul>
-                                    <li>HUB</li>
-                                    <li>SENSOR</li>
-                                    <li>DOOR LOCK</li>
-                                    <li>CAMERA</li>
-                                    <li>POE</li>
-                                </ul>
+
+                                <div className="shop-checkbox-list">
+                                    {filterOptions.map((category) => (
+                                        <label className="shop-checkbox-item" key={category}>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedCategories.includes(category)}
+                                                onChange={() => handleCategoryChange(category)}
+                                            />
+                                            <span>{category}</span>
+                                        </label>
+                                    ))}
+                                </div>
                             </div>
 
                             <div className="shop-filter-block">
@@ -44,12 +83,12 @@ export default function ShopPage() {
 
                         <div className="shop-main">
                             <div className="shop-toolbar">
-                                <p>{products.length} products</p>
+                                <p>{filteredProducts.length} products</p>
                                 <div className="shop-sort">Sort by: Recommended</div>
                             </div>
 
-                            <div className="product-grid">
-                                {products.map((product) => (
+                            <div className="product-grid product-grid-6">
+                                {filteredProducts.map((product) => (
                                     <div className="product-card" key={product.slug}>
                                         <Link href={`/shop/${product.slug}`} className="product-image-wrap">
                                             <div className="product-image-box">
@@ -73,8 +112,12 @@ export default function ShopPage() {
                                             <Link href={`/shop/${product.slug}`} className="product-name">
                                                 {product.name}
                                             </Link>
+
                                             <div className="product-divider" />
-                                            <p className="product-price">${product.price.toFixed(2)}</p>
+
+                                            <p className="product-price">
+                                                ${product.price.toFixed(2)}
+                                            </p>
 
                                             <Link href={`/shop/${product.slug}`} className="product-btn">
                                                 Add to Cart

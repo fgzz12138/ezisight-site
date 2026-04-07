@@ -714,30 +714,5 @@ export const products: Product[] = [
         ],
         inStock: false,
     },
-    {
-        slug: "0-10v-dimmer-module",
-        name: "0-10V Dimmer Module",
-        price: 112.78,
-        sku: "KK-LM-B01W",
-        category: "CONTROL Series",
-        image: "/images/products/0-10v-dimmer-module-1.jpg",
-        hoverImage: "/images/products/0-10v-dimmer-module-2.jpg",
-        gallery: [
-            "/images/products/0-10v-dimmer-module-1.jpg",
-            "/images/products/0-10v-dimmer-module-2.jpg",
-        ],
-        description: "0-10V stepless dimming module.",
-        shortDescription: "0-10V dimmer module.",
-        model: "KK-LM-B01W",
-        parameters: [
-            "Dimension: 156.5*36*25mm",
-            "Input: AC220V",
-            "Output Signal: 0-10V -- *2CH/50Ma*2CH",
-            "Protocol: ZigBee",
-            "Function: 0-100% Stepless Dimming",
-            "Colour Temp: 0-6500K (0-10V)",
-            "Support 90% 0-10V dimming driver in the market",
-        ],
-        inStock: true,
-    },
+
 ];
