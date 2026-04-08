@@ -70,6 +70,7 @@ textarea {
   font-size: 18px;
   font-weight: 700;
   line-height: 1.2;
+  white-space: nowrap;
   color: #111;
 }
 
@@ -2092,6 +2093,38 @@ textarea {
   color: #555;
   margin: 0;
 }
+
+/* =========================================================
+   SHOP HERO (IMAGE ONLY)
+========================================================= */
+
+.shop-hero {
+  position: relative;
+  width: 100%;
+
+  /* 👇 控制高度（响应式关键） */
+  height: clamp(800px, 85vh, 1000px);
+
+  overflow: hidden;
+}
+
+.shop-page {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 图片填满 */
+.shop-hero-image {
+  object-fit: cover;
+}
+
+/* 小屏优化 */
+@media (max-width: 768px) {
+  .shop-hero {
+    height: 420px;
+  }
+}
+
 
 /* ========================================
    MAIN LAYOUT

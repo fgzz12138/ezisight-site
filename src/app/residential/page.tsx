@@ -73,7 +73,7 @@ const residentialTiles: ResidentialTile[] = [
         type: "content",
         title: "Products",
         text: "Smart technology devices provide you with a smart life. Discover more about the smart products here!",
-        href: "/products",
+        href: "/shop",
     },
     {
         type: "slider",
@@ -108,7 +108,7 @@ const residentialTiles: ResidentialTile[] = [
         type: "content",
         title: "Contact",
         text: "If you would like to discuss your own smart house design, please feel free to call us. We are happy to talk with you!",
-        href: "/contact",
+        href: "/enquiries",
     },
     {
         type: "image",
@@ -119,7 +119,7 @@ const residentialTiles: ResidentialTile[] = [
         type: "content",
         title: "FAQs",
         text: "If you have any questions about the smart home or us, please visit the FAQs page.",
-        href: "/faqs",
+        href: "/enquiries",
     },
     {
         type: "image",
@@ -140,11 +140,11 @@ export default function ResidentialPage() {
                         <h1>Smart Home Automation</h1>
 
                         <div className="residential-main-hero-actions">
-                            <a href="/products" className="residential-main-hero-btn">
+                            <a href="/shop" className="residential-main-hero-btn">
                                 Shop Now
                             </a>
                             <a
-                                href="/contact"
+                                href="/"
                                 className="residential-main-hero-btn secondary"
                             >
                                 Subscribe

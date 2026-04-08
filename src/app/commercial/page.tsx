@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -176,8 +177,13 @@ export default function CommercialPage() {
                             </ul>
 
                             <div className="card-actions">
-                                <button className="btn-primary">Learn More</button>
-                                <button className="btn-dark">Start Now</button>
+                                <Link href="/projects" className="btn-primary">
+                                    Learn More
+                                </Link>
+
+                                <Link href="/enquiries" className="btn-dark">
+                                    Start Now
+                                </Link>
                             </div>
                         </div>
 

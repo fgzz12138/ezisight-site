@@ -44,13 +44,13 @@ export default function ShopPage() {
 
             <main className="shop-page">
                 <section className="shop-hero">
-                    <div className="shop-container">
-                        <p className="shop-breadcrumb">Home / Shop</p>
-                        <h1 className="shop-title">All Products</h1>
-                        <p className="shop-subtitle">
-                            Explore our product range across smart control, sensors, hubs, and security solutions.
-                        </p>
-                    </div>
+                    <Image
+                        src="/images/Shop/product-hero.png"
+                        alt="Shop Hero"
+                        fill
+                        priority
+                        className="shop-hero-image"
+                    />
                 </section>
 
                 <section className="shop-content">
