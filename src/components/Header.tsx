@@ -1,10 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { ShoppingCart, User } from "lucide-react";
+import { getCartCount } from "@/lib/cart";
 
 export default function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [cartCount, setCartCount] = useState(0);
+
+    useEffect(() => {
+        const updateCart = () => {
+            setCartCount(getCartCount());
+        };
+
+        updateCart();
+
+        window.addEventListener("cartUpdated", updateCart);
+        window.addEventListener("storage", updateCart);
+
+        return () => {
+            window.removeEventListener("cartUpdated", updateCart);
+            window.removeEventListener("storage", updateCart);
+        };
+    }, []);
 
     return (
         <header className="site-header">
@@ -22,17 +41,30 @@ export default function Header() {
                     <Link href="/enquiries">Enquiries</Link>
                 </nav>
 
-                <button
-                    className={`menu-toggle ${menuOpen ? "is-open" : ""}`}
-                    type="button"
-                    aria-label="Toggle navigation menu"
-                    aria-expanded={menuOpen}
-                    onClick={() => setMenuOpen(!menuOpen)}
-                >
-                    <span />
-                    <span />
-                    <span />
-                </button>
+                <div className="nav-actions">
+                    <Link href="/account" className="nav-account" aria-label="Account">
+                        <User size={22} strokeWidth={1.8} />
+                    </Link>
+
+                    <Link href="/cart" className="nav-cart" aria-label="Cart">
+                        <ShoppingCart size={22} strokeWidth={1.8} />
+                        {cartCount > 0 && (
+                            <span className="nav-cart-badge">{cartCount}</span>
+                        )}
+                    </Link>
+
+                    <button
+                        className={`menu-toggle ${menuOpen ? "is-open" : ""}`}
+                        type="button"
+                        aria-label="Toggle navigation menu"
+                        aria-expanded={menuOpen}
+                        onClick={() => setMenuOpen(!menuOpen)}
+                    >
+                        <span />
+                        <span />
+                        <span />
+                    </button>
+                </div>
             </div>
 
             <div className={`mobile-nav ${menuOpen ? "open" : ""}`}>
@@ -43,6 +75,8 @@ export default function Header() {
                     <Link href="/projects" onClick={() => setMenuOpen(false)}>Projects</Link>
                     <Link href="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
                     <Link href="/enquiries" onClick={() => setMenuOpen(false)}>Enquiries</Link>
+                    <Link href="/account" onClick={() => setMenuOpen(false)}>Account</Link>
+                    <Link href="/cart" onClick={() => setMenuOpen(false)}>Cart</Link>
                 </nav>
             </div>
         </header>

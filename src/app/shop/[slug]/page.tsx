@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { addToCart } from "@/lib/cart";
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,6 +41,19 @@ export default function Page() {
         setQuantity((prev) => prev + 1);
     };
 
+    const router = useRouter();
+
+    const handleAddToCart = () => {
+        addToCart({
+            slug: product.slug,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity,
+        });
+
+        router.push("/cart");
+    };
     return (
         <>
             <Header />
@@ -121,7 +136,7 @@ export default function Page() {
                                 </div>
                             </div>
 
-                            <button className="detail-add-btn" type="button">
+                            <button className="detail-add-btn" onClick={handleAddToCart} type="button">
                                 Add to Cart
                             </button>
 
