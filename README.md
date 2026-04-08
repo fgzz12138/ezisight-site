@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EziSight Smart Living Platform
 
-## Getting Started
+A full-featured responsive web application built with Next.js, designed to simulate a real-world commercial website for smart home and building automation solutions.
 
-First, run the development server:
+This project focuses on combining modern front-end development with practical business requirements, including product display, enquiry systems, and user interaction flows.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📌 Project Background
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project was developed as part of my front-end development practice to replicate a real business scenario.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The goal was to build a production-style website that includes:
 
-## Learn More
+- Product browsing experience
+- Business solution presentation (Commercial / Residential)
+- Functional enquiry system with backend integration
+- Responsive UI for real users
 
-To learn more about Next.js, take a look at the following resources:
+Unlike simple UI demos, this project simulates real workflows such as customer enquiries and product exploration.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠 Tech Stack
 
-## Deploy on Vercel
+### Frontend
+- Next.js (App Router)
+- React
+- TypeScript
+- Custom CSS (no UI framework)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Backend (Lightweight)
+- Next.js API Routes
+- Resend (Email API)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Tools & Libraries
+- Lucide-react (icons)
+- Vercel (deployment)
+
+---
+
+## ✨ Core Features
+
+### 🛒 1. Product & Shop System
+
+- Dynamic product listing
+- Product detail pages
+- Image switching (thumbnail interaction)
+- Quantity selector logic
+- Cart icon with real-time count
+
+📌 Focus:
+- Component reuse
+- State management (useState)
+- UI interaction design
+
+---
+
+### 🏢 2. Commercial & Residential Pages
+
+- Structured business content layout
+- Feature highlight sections
+- Embedded media (video / images)
+- CTA (Call-To-Action) flows
+
+📌 Focus:
+- Layout hierarchy
+- Real-world content structuring
+- UX readability
+
+---
+
+### 📩 3. Enquiry System (Full Flow)
+
+- Form input handling (controlled components)
+- API submission via `/api/enquiry`
+- Email delivery using Resend
+- Success / error UI feedback
+
+📌 Flow:
+
+User → Form → API → Resend → Company Email
+
+📌 Key Implementation:
+
+```ts
+await fetch("/api/enquiry", {
+  method: "POST",
+  body: JSON.stringify(form),
+});
