@@ -1,175 +1,194 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { clearCart, getCart } from "@/lib/cart";
+import { getCart } from "@/lib/cart";
 import { CartItem } from "@/types/cart";
 
 export default function CheckoutPage() {
-    const router = useRouter();
-    const [cart, setCart] = useState<CartItem[]>([]);
-    const [form, setForm] = useState({
-        fullName: "",
-        email: "",
-        phone: "",
-        address: "",
-        city: "",
-        state: "",
-        postcode: "",
-        country: "Australia",
-    });
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        setCart(getCart());
-    }, []);
+  const [form, setForm] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    postcode: "",
+    country: "Australia",
+  });
 
-    const subtotal = cart.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-    );
+  useEffect(() => {
+    setCart(getCart());
+  }, []);
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
+  const subtotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
-        clearCart();
-        router.push("/success");
-    };
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
 
-    return (
-        <div className="checkout-page-wrap">
-            <Header />
+    if (cart.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
 
-            <main className="checkout-page">
-                <div className="checkout-container">
-                    <h1>Checkout</h1>
+    try {
+      setIsLoading(true);
 
-                    <div className="checkout-layout">
-                        <form className="checkout-form" onSubmit={handleSubmit}>
-                            <h2>Contact Details</h2>
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: cart,
+          customer: form,
+        }),
+      });
 
-                            <input
-                                type="text"
-                                placeholder="Full Name"
-                                value={form.fullName}
-                                onChange={(e) =>
-                                    setForm({ ...form, fullName: e.target.value })
-                                }
-                                required
-                            />
+      const data = await res.json();
 
-                            <input
-                                type="email"
-                                placeholder="Email"
-                                value={form.email}
-                                onChange={(e) =>
-                                    setForm({ ...form, email: e.target.value })
-                                }
-                                required
-                            />
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Failed to start checkout.");
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-                            <input
-                                type="text"
-                                placeholder="Phone Number"
-                                value={form.phone}
-                                onChange={(e) =>
-                                    setForm({ ...form, phone: e.target.value })
-                                }
-                            />
+  return (
+    <div className="checkout-page-wrap">
+      <Header />
 
-                            <h2>Shipping Address</h2>
+      <main className="checkout-page">
+        <div className="checkout-container">
+          <h1>Checkout</h1>
 
-                            <input
-                                type="text"
-                                placeholder="Address"
-                                value={form.address}
-                                onChange={(e) =>
-                                    setForm({ ...form, address: e.target.value })
-                                }
-                                required
-                            />
+          <div className="checkout-layout">
+            <form className="checkout-form" onSubmit={handleSubmit}>
+              <h2>Contact Details</h2>
 
-                            <input
-                                type="text"
-                                placeholder="City"
-                                value={form.city}
-                                onChange={(e) =>
-                                    setForm({ ...form, city: e.target.value })
-                                }
-                                required
-                            />
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={form.fullName}
+                onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                required
+              />
 
-                            <input
-                                type="text"
-                                placeholder="State"
-                                value={form.state}
-                                onChange={(e) =>
-                                    setForm({ ...form, state: e.target.value })
-                                }
-                                required
-                            />
+              <input
+                type="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
+              />
 
-                            <input
-                                type="text"
-                                placeholder="Postcode"
-                                value={form.postcode}
-                                onChange={(e) =>
-                                    setForm({ ...form, postcode: e.target.value })
-                                }
-                                required
-                            />
+              <input
+                type="text"
+                placeholder="Phone Number"
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              />
 
-                            <input
-                                type="text"
-                                placeholder="Country"
-                                value={form.country}
-                                onChange={(e) =>
-                                    setForm({ ...form, country: e.target.value })
-                                }
-                                required
-                            />
+              <h2>Shipping Address</h2>
 
-                            <button type="submit" className="checkout-submit-btn">
-                                Place Order
-                            </button>
-                        </form>
+              <input
+                type="text"
+                placeholder="Address"
+                value={form.address}
+                onChange={(e) => setForm({ ...form, address: e.target.value })}
+                required
+              />
 
-                        <aside className="checkout-summary">
-                            <h2>Order Summary</h2>
+              <input
+                type="text"
+                placeholder="City"
+                value={form.city}
+                onChange={(e) => setForm({ ...form, city: e.target.value })}
+                required
+              />
 
-                            {cart.length === 0 ? (
-                                <p className="checkout-empty-text">Your cart is empty.</p>
-                            ) : (
-                                <>
-                                    {cart.map((item) => (
-                                        <div key={item.slug} className="checkout-summary-item">
-                                            <div>
-                                                <p className="checkout-summary-name">{item.name}</p>
-                                                <p className="checkout-summary-qty">
-                                                    {item.quantity} × ${item.price.toFixed(2)}
-                                                </p>
-                                            </div>
-                                            <p className="checkout-summary-line-total">
-                                                ${(item.quantity * item.price).toFixed(2)}
-                                            </p>
-                                        </div>
-                                    ))}
+              <input
+                type="text"
+                placeholder="State"
+                value={form.state}
+                onChange={(e) => setForm({ ...form, state: e.target.value })}
+                required
+              />
 
-                                    <hr />
+              <input
+                type="text"
+                placeholder="Postcode"
+                value={form.postcode}
+                onChange={(e) => setForm({ ...form, postcode: e.target.value })}
+                required
+              />
 
-                                    <div className="checkout-total-row">
-                                        <span>Total</span>
-                                        <strong>${subtotal.toFixed(2)}</strong>
-                                    </div>
-                                </>
-                            )}
-                        </aside>
+              <input
+                type="text"
+                placeholder="Country"
+                value={form.country}
+                onChange={(e) => setForm({ ...form, country: e.target.value })}
+                required
+              />
+
+              <button
+                type="submit"
+                className="checkout-submit-btn"
+                disabled={isLoading}
+              >
+                {isLoading ? "Redirecting to payment..." : "Place Order"}
+              </button>
+            </form>
+
+            <aside className="checkout-summary">
+              <h2>Order Summary</h2>
+
+              {cart.length === 0 ? (
+                <p className="checkout-empty-text">Your cart is empty.</p>
+              ) : (
+                <>
+                  {cart.map((item) => (
+                    <div key={item.slug} className="checkout-summary-item">
+                      <div>
+                        <p className="checkout-summary-name">{item.name}</p>
+                        <p className="checkout-summary-qty">
+                          {item.quantity} × ${item.price.toFixed(2)}
+                        </p>
+                      </div>
+
+                      <p className="checkout-summary-line-total">
+                        ${(item.quantity * item.price).toFixed(2)}
+                      </p>
                     </div>
-                </div>
-            </main>
+                  ))}
 
-            <Footer />
+                  <hr />
+
+                  <div className="checkout-total-row">
+                    <span>Total</span>
+                    <strong>${subtotal.toFixed(2)}</strong>
+                  </div>
+                </>
+              )}
+            </aside>
+          </div>
         </div>
-    );
+      </main>
+
+      <Footer />
+    </div>
+  );
 }
